@@ -1,4 +1,3 @@
-// app/_admin/login/page.tsx - Admin Login
 'use client';
 
 import { useState } from 'react';
@@ -29,6 +28,7 @@ export default function AdminLoginPage() {
         setError('Invalid credentials');
       } else {
         router.push('/_admin/dashboard');
+        router.refresh();
       }
     } catch (err) {
       setError('An error occurred');
@@ -91,6 +91,11 @@ export default function AdminLoginPage() {
             {loading ? 'Signing in...' : 'Sign In'}
           </button>
         </form>
+
+        <div className="mt-4 text-center text-sm text-gray-500">
+          <p>Default credentials:</p>
+          <p className="font-mono">admin@example.com / admin123</p>
+        </div>
       </div>
     </div>
   );

@@ -38,35 +38,38 @@ export default function ContactPage() {
         </p>
 
         <div className="grid md:grid-cols-3 gap-8">
-          <a
-            href="mailto:your.email@example.com"
-            className="flex flex-col items-center p-8 bg-gray-800 border border-gray-700 rounded-lg hover:border-blue-500 transition-colors"
-          >
-            <Mail className="w-12 h-12 text-blue-400 mb-4" />
-            <h3 className="text-xl font-bold mb-2 text-white">Email</h3>
-            <p className="text-gray-400 text-center">your.email@example.com</p>
-          </a>
+        <a
+          href="https://mail.google.com/mail/?view=cm&fs=1&to=tinochan06@gmail.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex flex-col items-center p-8 bg-gray-800 border border-gray-700 rounded-lg hover:border-blue-500 transition-colors"
+        >
+          <Mail className="w-12 h-12 text-blue-400 mb-4" />
+          <h3 className="text-xl font-bold mb-2 text-white">Email</h3>
+          <p className="text-gray-400 text-center">My email</p>
+        </a>
+
 
           <a
-            href="https://github.com/yourusername"
+            href="https://github.com/tinoe0404"
             target="_blank"
             rel="noopener noreferrer"
             className="flex flex-col items-center p-8 bg-gray-800 border border-gray-700 rounded-lg hover:border-purple-500 transition-colors"
           >
             <Github className="w-12 h-12 text-purple-400 mb-4" />
             <h3 className="text-xl font-bold mb-2 text-white">GitHub</h3>
-            <p className="text-gray-400 text-center">@yourusername</p>
+            <p className="text-gray-400 text-center">My Github Account</p>
           </a>
 
           <a
-            href="https://linkedin.com/in/yourprofile"
+            href="https://www.linkedin.com/in/tinotenda-chandengenda-691526285?utm_source=share_via&utm_content=profile&utm_medium=member_ios"
             target="_blank"
             rel="noopener noreferrer"
             className="flex flex-col items-center p-8 bg-gray-800 border border-gray-700 rounded-lg hover:border-pink-500 transition-colors"
           >
             <Linkedin className="w-12 h-12 text-pink-400 mb-4" />
             <h3 className="text-xl font-bold mb-2 text-white">LinkedIn</h3>
-            <p className="text-gray-400 text-center">Your Name</p>
+            <p className="text-gray-400 text-center">Tinotenda Chandengenda</p>
           </a>
         </div>
       </div>
