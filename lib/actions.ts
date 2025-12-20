@@ -37,7 +37,7 @@ export async function createProject(
 
   revalidatePath('/projects');
   revalidatePath('/case-studies');
-  revalidatePath('/_admin/projects');
+  revalidatePath('/admin/projects');
 
   return project;
 }
@@ -56,7 +56,7 @@ export async function updateProject(
   revalidatePath('/projects');
   revalidatePath(`/projects/${project.slug}`);
   revalidatePath(`/case-studies/${project.slug}`);
-  revalidatePath('/_admin/projects');
+  revalidatePath('/admin/projects');
 
   return project;
 }
@@ -70,7 +70,7 @@ export async function deleteProject(id: string) {
 
   revalidatePath('/projects');
   revalidatePath('/case-studies');
-  revalidatePath('/_admin/projects');
+  revalidatePath('/admin/projects');
 }
 
 /* ----------------------------------
@@ -131,7 +131,7 @@ export async function createCaseStudy(
   });
 
   revalidatePath('/case-studies');
-  revalidatePath('/_admin/projects');
+  revalidatePath('/admin/projects');
 
   return caseStudy;
 }
@@ -148,7 +148,7 @@ export async function updateCaseStudy(
   });
 
   revalidatePath('/case-studies');
-  revalidatePath('/_admin/projects');
+  revalidatePath('/admin/projects');
 
   return caseStudy;
 }
@@ -159,5 +159,5 @@ export async function deleteCaseStudy(id: string) {
   await prisma.caseStudy.delete({ where: { id } });
 
   revalidatePath('/case-studies');
-  revalidatePath('/_admin/projects');
+  revalidatePath('/admin/projects');
 }

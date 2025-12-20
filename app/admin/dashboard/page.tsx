@@ -1,4 +1,4 @@
-// app/_admin/dashboard/page.tsx - Admin Dashboard
+// app/admin/dashboard/page.tsx - Admin Dashboard
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { redirect } from 'next/navigation';
@@ -12,7 +12,7 @@ export default async function AdminDashboardPage() {
   const session = await getServerSession(authOptions);
   
   if (!session) {
-    redirect('/_admin/login');
+    redirect('/admin/login');
   }
 
   const projects = await getProjects(false);
@@ -65,13 +65,13 @@ export default async function AdminDashboardPage() {
           <h2 className="text-2xl font-bold text-white mb-4">Quick Actions</h2>
           <div className="grid md:grid-cols-2 gap-4">
             <Link
-              href="/_admin/projects/new"
+              href="/admin/projects/new"
               className="p-4 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors text-center font-semibold"
             >
               Create New Project
             </Link>
             <Link
-              href="/_admin/projects"
+              href="/admin/projects"
               className="p-4 bg-gray-900 hover:bg-gray-700 border border-gray-700 rounded-lg transition-colors text-center font-semibold"
             >
               Manage Projects

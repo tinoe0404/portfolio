@@ -110,7 +110,7 @@ export default function ProjectForm({ project }: ProjectFormProps) {
         }
       }
 
-      router.push('/_admin/projects');
+      router.push('/admin/projects');
       router.refresh();
     } catch (err: any) {
       setError(err.message || 'Failed to save project');
