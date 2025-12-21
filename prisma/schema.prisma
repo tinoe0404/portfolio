@@ -52,8 +52,9 @@ model CaseStudy {
 }
 
 model Settings {
-  id        String   @id @default(uuid())
-  cvUrl     String?  // URL or path to CV file
-  cvFileName String? // Original filename
-  updatedAt DateTime @updatedAt
+  id         String   @id @default(uuid())
+  cvUrl      String?
+  cvFileName String?
+  updatedAt  DateTime @updatedAt
+  createdAt  DateTime @default(now())
 }

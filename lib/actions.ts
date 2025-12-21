@@ -162,12 +162,16 @@ export async function deleteCaseStudy(id: string) {
   revalidatePath('/admin/projects');
 }
 
+export async function getCV() {
+  const settings = await prisma.settings.findFirst();
+  return settings;
+}
+
 export async function updateCV(cvUrl: string, fileName: string) {
-  await checkAuth();
-  
-  // Get or create settings
+  await requireAdmin();
+
   let settings = await prisma.settings.findFirst();
-  
+
   if (!settings) {
     settings = await prisma.settings.create({
       data: {
@@ -184,21 +188,18 @@ export async function updateCV(cvUrl: string, fileName: string) {
       },
     });
   }
-  
+
   revalidatePath('/');
   revalidatePath('/contact');
-  return settings;
-}
 
-export async function getCV() {
-  const settings = await prisma.settings.findFirst();
   return settings;
 }
 
 export async function deleteCV() {
-  await checkAuth();
-  
+  await requireAdmin();
+
   const settings = await prisma.settings.findFirst();
+
   if (settings) {
     await prisma.settings.update({
       where: { id: settings.id },
@@ -208,11 +209,10 @@ export async function deleteCV() {
       },
     });
   }
-  
+
   revalidatePath('/');
   revalidatePath('/contact');
 }
-function checkAuth() {
-  throw new Error('Function not implemented.');
-}
+
+
 
