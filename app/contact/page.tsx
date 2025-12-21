@@ -70,7 +70,7 @@ export default function ContactPage() {
                 </a>
 
                 <a
-                  href="https://twitter.com/yourusername"
+                  href="https://x.com/tinotendac17284?s=21"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 p-4 bg-gray-900 hover:bg-gray-700 border border-gray-700 rounded-lg transition-colors group"
@@ -80,7 +80,7 @@ export default function ContactPage() {
                 </a>
 
                 <a
-                  href="mailto:tinochan06@gmail.com"
+                  href="https://mail.google.com/mail/?view=cm&fs=1&to=tinochan06@gmail.com"
                   className="flex items-center gap-3 p-4 bg-gray-900 hover:bg-gray-700 border border-gray-700 rounded-lg transition-colors group"
                 >
                   <Mail className="w-6 h-6 text-gray-400 group-hover:text-white transition-colors" />
