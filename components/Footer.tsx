@@ -1,6 +1,6 @@
 // components/Footer.tsx - Reusable Footer
 import Link from 'next/link';
-import { Github, Linkedin, Mail } from 'lucide-react';
+import { Github, Linkedin, Mail, Twitter } from 'lucide-react';
 
 export function Footer() {
   return (
@@ -38,15 +38,25 @@ export function Footer() {
             <h4 className="font-semibold text-white mb-4">Connect</h4>
             <div className="flex gap-4">
               <a
-                href="https://github.com/yourusername"
+                href="https://github.com/tinoe0404"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors"
               >
                 <Github className="w-5 h-5" />
               </a>
+
               <a
-                href="https://linkedin.com/in/yourprofile"
+                  href="https://x.com/tinotendac17284?s=21"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 p-4 bg-gray-900 hover:bg-gray-700 border border-gray-700 rounded-lg transition-colors group"
+                >
+                  <Twitter className="w-6 h-6 text-gray-400 group-hover:text-white transition-colors" />
+                  <span className="text-gray-300 group-hover:text-white transition-colors font-medium">Twitter</span>
+                </a>
+              <a
+                href="https://www.linkedin.com/in/tinotenda-chandengenda-691526285"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors"
@@ -54,7 +64,7 @@ export function Footer() {
                 <Linkedin className="w-5 h-5" />
               </a>
               <a
-                href="mailto:your.email@example.com"
+                href="https://mail.google.com/mail/?view=cm&fs=1&to=tinochan06@gmail.com"
                 className="p-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors"
               >
                 <Mail className="w-5 h-5" />
