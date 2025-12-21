@@ -1,5 +1,5 @@
 // ============================================================
-// FILE: components/PublicNav.tsx (NEW - Mobile Responsive)
+// FILE: components/PublicNav.tsx (NEW - Create this file)
 // ============================================================
 'use client';
 
@@ -38,6 +38,7 @@ export default function PublicNav() {
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="md:hidden p-2 text-gray-400 hover:text-white transition-colors"
+            aria-label="Toggle menu"
           >
             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
