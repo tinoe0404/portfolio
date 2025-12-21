@@ -161,3 +161,58 @@ export async function deleteCaseStudy(id: string) {
   revalidatePath('/case-studies');
   revalidatePath('/admin/projects');
 }
+
+export async function updateCV(cvUrl: string, fileName: string) {
+  await checkAuth();
+  
+  // Get or create settings
+  let settings = await prisma.settings.findFirst();
+  
+  if (!settings) {
+    settings = await prisma.settings.create({
+      data: {
+        cvUrl,
+        cvFileName: fileName,
+      },
+    });
+  } else {
+    settings = await prisma.settings.update({
+      where: { id: settings.id },
+      data: {
+        cvUrl,
+        cvFileName: fileName,
+      },
+    });
+  }
+  
+  revalidatePath('/');
+  revalidatePath('/contact');
+  return settings;
+}
+
+export async function getCV() {
+  const settings = await prisma.settings.findFirst();
+  return settings;
+}
+
+export async function deleteCV() {
+  await checkAuth();
+  
+  const settings = await prisma.settings.findFirst();
+  if (settings) {
+    await prisma.settings.update({
+      where: { id: settings.id },
+      data: {
+        cvUrl: null,
+        cvFileName: null,
+      },
+    });
+  }
+  
+  revalidatePath('/');
+  revalidatePath('/contact');
+}
+function checkAuth() {
+  throw new Error('Function not implemented.');
+}
+

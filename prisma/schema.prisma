@@ -50,3 +50,10 @@ model CaseStudy {
   updatedAt    DateTime @updatedAt
   project      Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
 }
+
+model Settings {
+  id        String   @id @default(uuid())
+  cvUrl     String?  // URL or path to CV file
+  cvFileName String? // Original filename
+  updatedAt DateTime @updatedAt
+}

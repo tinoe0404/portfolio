@@ -1,5 +1,5 @@
 // ============================================================
-// FILE: app/page.tsx (Rewritten – Modern, Scalable)
+// FILE: app/page.tsx (Updated with CV Download)
 // ============================================================
 import Link from 'next/link';
 import {
@@ -14,7 +14,8 @@ import {
 
 import PublicNav from '@/components/PublicNav';
 import { Footer } from '@/components/Footer';
-import HeroProfile from '@/components/HeroProfile';
+import DownloadCVButton from '@/components/DownloadCVButton';
+import { getCV } from '@/lib/actions';
 
 const skills = [
   {
@@ -61,10 +62,10 @@ const skills = [
   },
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  const cv = await getCV();
+
   return (
-
-
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
       <PublicNav />
 
@@ -82,9 +83,15 @@ export default function HomePage() {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            {/* CV Download Button */}
+            <DownloadCVButton 
+              cvUrl={cv?.cvUrl} 
+              fileName={cv?.cvFileName}
+            />
+
             <Link
               href="/projects"
-              className="flex items-center justify-center gap-2 px-8 py-3 rounded-lg bg-blue-600 hover:bg-blue-700 transition-colors font-semibold"
+              className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-3 rounded-lg bg-blue-600 hover:bg-blue-700 transition-colors font-semibold"
             >
               View Projects
               <ArrowRight className="w-5 h-5" />
@@ -92,7 +99,7 @@ export default function HomePage() {
 
             <Link
               href="/contact"
-              className="flex items-center justify-center gap-2 px-8 py-3 rounded-lg border border-gray-700 bg-gray-800 hover:bg-gray-700 transition-colors font-semibold"
+              className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-3 rounded-lg border border-gray-700 bg-gray-800 hover:bg-gray-700 transition-colors font-semibold"
             >
               Get in Touch
               <Mail className="w-5 h-5" />
@@ -127,3 +134,26 @@ export default function HomePage() {
     </div>
   );
 }
+
+// ============================================================
+// CHANGES MADE:
+// ============================================================
+/*
+✅ Added async to HomePage function
+✅ Imported getCV from @/lib/actions
+✅ Imported DownloadCVButton component
+✅ Fetched CV data with await getCV()
+✅ Added DownloadCVButton as first button in hero section
+✅ Made all buttons full-width on mobile (w-full sm:w-auto)
+✅ CV button only shows if CV is uploaded (handled in DownloadCVButton component)
+✅ Maintained responsive design and spacing
+✅ Kept all existing functionality and styling
+
+BUTTON ORDER IN HERO:
+1. Download CV (gradient blue-purple)
+2. View Projects (blue)
+3. Get in Touch (gray)
+
+The Download CV button will only appear when an admin uploads a CV
+through the dashboard. If no CV is uploaded, the button won't show.
+*/
