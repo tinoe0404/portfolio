@@ -1,9 +1,13 @@
+// ============================================================
+// FILE: app/layout.tsx (Updated)
+// ============================================================
 import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
   title: 'Full-Stack Developer Portfolio',
   description: 'Showcasing modern web development projects and case studies',
+  viewport: 'width=device-width, initial-scale=1',
 };
 
 export default function RootLayout({
