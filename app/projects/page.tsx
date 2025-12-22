@@ -1,7 +1,7 @@
-// FILE: app/projects/page.tsx (Mobile Responsive)
+// FILE: app/projects/page.tsx (Fixed Image Display)
 import Link from 'next/link';
 import { getProjects } from '@/lib/actions';
-import { ExternalLink, Github } from 'lucide-react';
+import { Briefcase, ExternalLink, Github } from 'lucide-react';
 import PublicNav from '@/components/PublicNav';
 import { Footer } from '@/components/Footer';
 
@@ -27,25 +27,42 @@ export default async function ProjectsPage() {
             {projects.map((project) => (
               <div 
                 key={project.id} 
-                className="bg-gray-800 border border-gray-700 rounded-lg overflow-hidden hover:border-blue-500 transition-colors"
+                className="bg-gray-800 border border-gray-700 rounded-lg overflow-hidden hover:border-blue-500 transition-colors flex flex-col"
               >
-                {project.coverImage && (
-                  <img
-                    src={project.coverImage}
-                    alt={project.title}
-                    className="w-full h-40 sm:h-48 object-cover"
-                  />
+                {/* Fixed Image Container */}
+                {project.coverImage ? (
+                  <div className="relative w-full h-48 sm:h-56 bg-gray-900 overflow-hidden">
+                    <img
+                      src={project.coverImage}
+                      alt={project.title}
+                      className="absolute inset-0 w-full h-full object-cover"
+                      onError={(e) => {
+                        // Fallback if image fails to load
+                        e.currentTarget.style.display = 'none';
+                      }}
+                    />
+                  </div>
+                ) : (
+                  // Placeholder if no image
+                  <div className="w-full h-48 sm:h-56 bg-gray-900 flex items-center justify-center">
+                    <div className="text-gray-600 text-center">
+                      <Briefcase className="w-12 h-12 mx-auto mb-2" />
+                      <p className="text-sm">No preview</p>
+                    </div>
+                  </div>
                 )}
-                <div className="p-5 sm:p-6">
+
+                {/* Card Content */}
+                <div className="p-5 sm:p-6 flex-1 flex flex-col">
                   {project.isFeatured && (
-                    <span className="inline-block px-3 py-1 bg-blue-600 text-xs font-semibold rounded-full mb-3">
+                    <span className="inline-block px-3 py-1 bg-blue-600 text-xs font-semibold rounded-full mb-3 w-fit">
                       Featured
                     </span>
                   )}
                   <h3 className="text-lg sm:text-xl font-bold mb-2 text-white">
                     {project.title}
                   </h3>
-                  <p className="text-sm sm:text-base text-gray-400 mb-3 sm:mb-4">
+                  <p className="text-sm sm:text-base text-gray-400 mb-3 sm:mb-4 flex-1">
                     {project.shortDesc}
                   </p>
                   
@@ -60,7 +77,7 @@ export default async function ProjectsPage() {
                     ))}
                   </div>
 
-                  <div className="flex items-center gap-3 flex-wrap">
+                  <div className="flex items-center gap-3 flex-wrap pt-3 border-t border-gray-700">
                     {project.githubUrl && (
                       <a
                         href={project.githubUrl}
@@ -105,25 +122,36 @@ export default async function ProjectsPage() {
 }
 
 // ============================================================
-// MOBILE RESPONSIVE FEATURES ADDED:
+// IMAGE FIXES APPLIED:
 // ============================================================
 /*
-✅ Replaced inline nav with PublicNav component (hamburger menu)
-✅ Added Footer component
-✅ Responsive heading (text-3xl sm:text-4xl)
-✅ Responsive spacing (py-8 sm:py-12, mb-6 sm:mb-8)
-✅ Grid: 1 column mobile, 2 tablet, 3 desktop (grid-cols-1 sm:grid-cols-2 lg:grid-cols-3)
-✅ Responsive gaps (gap-6 sm:gap-8)
-✅ Responsive image height (h-40 sm:h-48)
-✅ Responsive card padding (p-5 sm:p-6)
-✅ Responsive text sizes (text-lg sm:text-xl, text-sm sm:text-base)
-✅ Responsive link sizes (text-xs sm:text-sm)
-✅ Links wrap properly on mobile (flex-wrap)
+✅ Fixed aspect ratio container with relative positioning
+✅ Image uses object-cover to fill container properly
+✅ Consistent height: h-48 on mobile, h-56 on larger screens
+✅ Added fallback placeholder if image fails to load
+✅ Added placeholder for projects without images
+✅ Card uses flex-col to ensure proper layout
+✅ Image container has bg-gray-900 as fallback color
+✅ Added border-t separator before links for better visual hierarchy
 
-MOBILE OPTIMIZATIONS:
-- Single column on mobile for easy scrolling
-- Smaller text for better fit on small screens
-- Tighter spacing on mobile
-- Touch-friendly card size
-- Proper image sizing for mobile bandwidth
+IMAGE BEST PRACTICES:
+- Recommended image size: 800x600px or 16:9 ratio
+- Format: JPG or PNG
+- Max file size: < 500KB for best performance
+- Use image optimization services like:
+  - Cloudinary
+  - imgix  
+  - Next.js Image Optimization (if self-hosted)
+
+TO USE NEXT.JS IMAGE COMPONENT (Better):
+Replace <img> with:
+import Image from 'next/image';
+
+<Image
+  src={project.coverImage}
+  alt={project.title}
+  fill
+  className="object-cover"
+  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+/>
 */
