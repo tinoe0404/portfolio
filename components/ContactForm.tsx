@@ -22,27 +22,27 @@ export default function ContactForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setStatus('loading');
-
+    setLoading(true);
+    setStatus('idle');
+  
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
-
-      if (!res.ok) {
-        throw new Error('Failed to send message');
-      }
-
-      setFormData({ name: '', email: '', message: '' });
+  
+      if (!res.ok) throw new Error('Failed to send message');
+  
       setStatus('success');
+      setFormData({ name: '', email: '', message: '' });
     } catch (error) {
       setStatus('error');
+    } finally {
+      setLoading(false);
     }
   };
+  
 
   return (
     <div className="bg-gray-800 border border-gray-700 rounded-lg p-8">
@@ -139,3 +139,7 @@ export default function ContactForm() {
     </div>
   );
 }
+function setLoading(arg0: boolean) {
+  throw new Error('Function not implemented.');
+}
+
