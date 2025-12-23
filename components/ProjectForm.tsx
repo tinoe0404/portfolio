@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createProject, updateProject, createCaseStudy, updateCaseStudy } from '@/lib/actions';
 import { X } from 'lucide-react';
+import ScreenshotPreview from './ScreenshotPreview';
 
 interface ProjectFormProps {
   project?: any;
@@ -391,16 +392,11 @@ export default function ProjectForm({ project }: ProjectFormProps) {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 {screenshots.map((url, i) => (
-                  <div key={i} className="relative group">
-                    <img src={url} alt="" className="w-full h-32 object-cover rounded border border-gray-700" />
-                    <button
-                      type="button"
-                      onClick={() => removeScreenshot(url)}
-                      className="absolute top-2 right-2 p-1 bg-red-600 rounded opacity-0 group-hover:opacity-100 transition-opacity"
-                    >
-                      <X className="w-4 h-4" />
-                    </button>
-                  </div>
+                  <ScreenshotPreview 
+                    key={i} 
+                    url={url} 
+                    onRemove={() => removeScreenshot(url)}
+                  />
                 ))}
               </div>
             </div>

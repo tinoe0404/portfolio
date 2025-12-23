@@ -78,29 +78,44 @@ export async function deleteProject(id: string) {
 ----------------------------------- */
 
 export async function getProjects(publishedOnly = false) {
-  return prisma.project.findMany({
-    where: publishedOnly ? { isPublished: true } : undefined,
-    include: { caseStudy: true },
-    orderBy: { createdAt: 'desc' },
-  });
+  try {
+    return await prisma.project.findMany({
+      where: publishedOnly ? { isPublished: true } : undefined,
+      include: { caseStudy: true },
+      orderBy: { createdAt: 'desc' },
+    });
+  } catch (error) {
+    console.error('Database error in getProjects:', error);
+    return [];
+  }
 }
 
 export async function getProjectBySlug(slug: string) {
-  return prisma.project.findUnique({
-    where: { slug },
-    include: { caseStudy: true },
-  });
+  try {
+    return await prisma.project.findUnique({
+      where: { slug },
+      include: { caseStudy: true },
+    });
+  } catch (error) {
+    console.error('Database error in getProjectBySlug:', error);
+    return null;
+  }
 }
 
 export async function getCaseStudies() {
-  return prisma.project.findMany({
-    where: {
-      isPublished: true,
-      caseStudy: { isNot: null },
-    },
-    include: { caseStudy: true },
-    orderBy: { createdAt: 'desc' },
-  });
+  try {
+    return await prisma.project.findMany({
+      where: {
+        isPublished: true,
+        caseStudy: { isNot: null },
+      },
+      include: { caseStudy: true },
+      orderBy: { createdAt: 'desc' },
+    });
+  } catch (error) {
+    console.error('Database error in getCaseStudies:', error);
+    return [];
+  }
 }
 
 /* ----------------------------------
@@ -163,8 +178,14 @@ export async function deleteCaseStudy(id: string) {
 }
 
 export async function getCV() {
-  const settings = await prisma.settings.findFirst();
-  return settings;
+  try {
+    const settings = await prisma.settings.findFirst();
+    return settings;
+  } catch (error) {
+    console.error('Database error in getCV:', error);
+    // Return null when database is unavailable (e.g., during build)
+    return null;
+  }
 }
 
 export async function updateCV(cvUrl: string, fileName: string) {
@@ -213,6 +234,3 @@ export async function deleteCV() {
   revalidatePath('/');
   revalidatePath('/contact');
 }
-
-
-

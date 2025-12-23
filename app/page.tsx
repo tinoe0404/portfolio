@@ -1,6 +1,4 @@
-// ============================================================
-// FILE: app/page.tsx (Updated with CV Download)
-// ============================================================
+// app/page.tsx
 import Link from 'next/link';
 import {
   ArrowRight,
@@ -63,6 +61,7 @@ const skills = [
 ];
 
 export default async function HomePage() {
+  // Safely fetch CV - returns null if database unavailable
   const cv = await getCV();
 
   return (
@@ -83,10 +82,10 @@ export default async function HomePage() {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            {/* CV Download Button */}
+            {/* CV Download Button - only shows if CV exists */}
             <DownloadCVButton 
-              cvUrl={cv?.cvUrl} 
-              fileName={cv?.cvFileName}
+              cvUrl={cv?.cvUrl || null} 
+              fileName={cv?.cvFileName || 'CV.pdf'}
             />
 
             <Link
@@ -134,26 +133,3 @@ export default async function HomePage() {
     </div>
   );
 }
-
-// ============================================================
-// CHANGES MADE:
-// ============================================================
-/*
-✅ Added async to HomePage function
-✅ Imported getCV from @/lib/actions
-✅ Imported DownloadCVButton component
-✅ Fetched CV data with await getCV()
-✅ Added DownloadCVButton as first button in hero section
-✅ Made all buttons full-width on mobile (w-full sm:w-auto)
-✅ CV button only shows if CV is uploaded (handled in DownloadCVButton component)
-✅ Maintained responsive design and spacing
-✅ Kept all existing functionality and styling
-
-BUTTON ORDER IN HERO:
-1. Download CV (gradient blue-purple)
-2. View Projects (blue)
-3. Get in Touch (gray)
-
-The Download CV button will only appear when an admin uploads a CV
-through the dashboard. If no CV is uploaded, the button won't show.
-*/

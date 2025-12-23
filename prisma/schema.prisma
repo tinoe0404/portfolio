@@ -5,10 +5,7 @@ generator client {
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
-}
-
-enum Role {
-  ADMIN
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
@@ -25,7 +22,7 @@ model Project {
   title       String
   slug        String     @unique
   shortDesc   String
-  fullDesc    String     @db.Text
+  fullDesc    String
   techStack   String[]
   githubUrl   String?
   demoUrl     String?
@@ -40,11 +37,11 @@ model Project {
 model CaseStudy {
   id           String   @id @default(uuid())
   projectId    String   @unique
-  overview     String   @db.Text
-  problem      String   @db.Text
-  solution     String   @db.Text
-  challenges   String   @db.Text
-  architecture String?  @db.Text
+  overview     String
+  problem      String
+  solution     String
+  challenges   String
+  architecture String?
   screenshots  String[]
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
@@ -57,4 +54,8 @@ model Settings {
   cvFileName String?
   updatedAt  DateTime @updatedAt
   createdAt  DateTime @default(now())
+}
+
+enum Role {
+  ADMIN
 }

@@ -1,9 +1,10 @@
-// FILE: app/projects/page.tsx (Fixed Image Display)
+// app/projects/page.tsx
 import Link from 'next/link';
 import { getProjects } from '@/lib/actions';
-import { Briefcase, ExternalLink, Github } from 'lucide-react';
+import { ExternalLink, Github } from 'lucide-react';
 import PublicNav from '@/components/PublicNav';
 import { Footer } from '@/components/Footer';
+import ProjectImage from '@/components/ProjectImage';
 
 export const metadata = {
   title: 'Projects | Portfolio',
@@ -29,28 +30,11 @@ export default async function ProjectsPage() {
                 key={project.id} 
                 className="bg-gray-800 border border-gray-700 rounded-lg overflow-hidden hover:border-blue-500 transition-colors flex flex-col"
               >
-                {/* Fixed Image Container */}
-                {project.coverImage ? (
-                  <div className="relative w-full h-48 sm:h-56 bg-gray-900 overflow-hidden">
-                    <img
-                      src={project.coverImage}
-                      alt={project.title}
-                      className="absolute inset-0 w-full h-full object-cover"
-                      onError={(e) => {
-                        // Fallback if image fails to load
-                        e.currentTarget.style.display = 'none';
-                      }}
-                    />
-                  </div>
-                ) : (
-                  // Placeholder if no image
-                  <div className="w-full h-48 sm:h-56 bg-gray-900 flex items-center justify-center">
-                    <div className="text-gray-600 text-center">
-                      <Briefcase className="w-12 h-12 mx-auto mb-2" />
-                      <p className="text-sm">No preview</p>
-                    </div>
-                  </div>
-                )}
+                {/* Client Component for Image */}
+                <ProjectImage 
+                  src={project.coverImage || ''} 
+                  alt={project.title} 
+                />
 
                 {/* Card Content */}
                 <div className="p-5 sm:p-6 flex-1 flex flex-col">
@@ -120,38 +104,3 @@ export default async function ProjectsPage() {
     </div>
   );
 }
-
-// ============================================================
-// IMAGE FIXES APPLIED:
-// ============================================================
-/*
-✅ Fixed aspect ratio container with relative positioning
-✅ Image uses object-cover to fill container properly
-✅ Consistent height: h-48 on mobile, h-56 on larger screens
-✅ Added fallback placeholder if image fails to load
-✅ Added placeholder for projects without images
-✅ Card uses flex-col to ensure proper layout
-✅ Image container has bg-gray-900 as fallback color
-✅ Added border-t separator before links for better visual hierarchy
-
-IMAGE BEST PRACTICES:
-- Recommended image size: 800x600px or 16:9 ratio
-- Format: JPG or PNG
-- Max file size: < 500KB for best performance
-- Use image optimization services like:
-  - Cloudinary
-  - imgix  
-  - Next.js Image Optimization (if self-hosted)
-
-TO USE NEXT.JS IMAGE COMPONENT (Better):
-Replace <img> with:
-import Image from 'next/image';
-
-<Image
-  src={project.coverImage}
-  alt={project.title}
-  fill
-  className="object-cover"
-  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-/>
-*/
