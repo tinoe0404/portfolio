@@ -179,11 +179,11 @@ export async function deleteCaseStudy(id: string) {
 
 export async function getCV() {
   try {
+    // We do not want to cache this query result heavily if it changes often
     const settings = await prisma.settings.findFirst();
     return settings;
   } catch (error) {
     console.error('Database error in getCV:', error);
-    // Return null when database is unavailable (e.g., during build)
     return null;
   }
 }
@@ -191,28 +191,23 @@ export async function getCV() {
 export async function updateCV(cvUrl: string, fileName: string) {
   await requireAdmin();
 
-  let settings = await prisma.settings.findFirst();
+  // Upsert logic: Update if exists, Create if not
+  const existing = await prisma.settings.findFirst();
 
-  if (!settings) {
-    settings = await prisma.settings.create({
-      data: {
-        cvUrl,
-        cvFileName: fileName,
-      },
+  let settings;
+  if (existing) {
+    settings = await prisma.settings.update({
+      where: { id: existing.id },
+      data: { cvUrl, cvFileName: fileName },
     });
   } else {
-    settings = await prisma.settings.update({
-      where: { id: settings.id },
-      data: {
-        cvUrl,
-        cvFileName: fileName,
-      },
+    settings = await prisma.settings.create({
+      data: { cvUrl, cvFileName: fileName },
     });
   }
 
   revalidatePath('/');
-  revalidatePath('/contact');
-
+  revalidatePath('/contact'); // Wherever the button is used
   return settings;
 }
 

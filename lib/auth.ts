@@ -1,7 +1,5 @@
 import { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { compare } from 'bcryptjs';
-import { prisma } from './prisma';
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -12,33 +10,45 @@ export const authOptions: NextAuthOptions = {
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
+        // 1. Check if user typed anything
         if (!credentials?.email || !credentials.password) return null;
 
-        const user = await prisma.user.findUnique({
-          where: { email: credentials.email },
-        });
+        // 2. Get the env variables
+        const adminEmail = process.env.ADMIN_EMAIL;
+        const adminPassword = process.env.ADMIN_PASSWORD;
 
-        if (!user) return null;
+        // 3. CRITICAL FIX: Check if env vars exist before comparing.
+        // This tells TypeScript that adminEmail is definitely a 'string' and not 'undefined'.
+        if (!adminEmail || !adminPassword) {
+          console.error("Admin credentials are not set in the .env file");
+          return null;
+        }
 
-        const valid = await compare(credentials.password, user.password);
-        if (!valid) return null;
+        // 4. Compare input against env variables
+        const isValidEmail = credentials.email === adminEmail;
+        const isValidPassword = credentials.password === adminPassword;
 
-        return {
-          id: user.id,
-          email: user.email,
-          role: user.role,
-        };
+        if (isValidEmail && isValidPassword) {
+          return {
+            id: '1',
+            email: adminEmail, // TypeScript is happy now because we checked "!adminEmail" above
+            name: 'Admin',
+            role: 'ADMIN',
+          };
+        }
+
+        return null;
       },
     }),
   ],
   callbacks: {
     jwt({ token, user }) {
-      if (user) token.role = user.role;
+      if (user) token.role = (user as any).role; // Type assertion helps here if types aren't extended
       return token;
     },
     session({ session, token }) {
       if (session.user) {
-        session.user.role = token.role as string;
+        (session.user as any).role = token.role as string;
       }
       return session;
     },

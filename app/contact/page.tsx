@@ -99,8 +99,6 @@ export default async function ContactPage() {
               
               {/* CV Download Button */}
               <DownloadCVButton 
-                cvUrl={cv?.cvUrl} 
-                fileName={cv?.cvFileName}
                 className="w-full justify-center"
               />
             </div>
